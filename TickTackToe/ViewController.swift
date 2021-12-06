@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var game = Game(evenColor: UIColor.blue, oddColor: UIColor.red)
+    var game = Game(gameColors: [UIColor.blue, UIColor.red])
     
     @IBOutlet weak var gameButtons: UIStackView!
     @IBOutlet weak var winnerLabel: UILabel!
@@ -20,9 +20,9 @@ class ViewController: UIViewController {
     
     
     @IBAction func resetButtonPressed(_ sender: UIButton) {
-        let evenColor = game.oddColor
-        let oddColor = game.evenColor
-        game = Game(evenColor: evenColor, oddColor: oddColor)
+        winnerLabel.isHidden = true
+        game.gameColors.swapAt(0, 1)
+        game = Game(gameColors: game.gameColors)
         
         for stack in gameButtons.subviews {
             for button in stack.subviews {
@@ -33,7 +33,17 @@ class ViewController: UIViewController {
     }
     
     @IBAction func gameButtonPressed(_ sender: UIButton) {
-        game.takeTurn(sender: sender)
+        if !game.gameEnded {
+            game.takeTurn(sender: sender)
+        }
+        else {
+            winnerLabel.isHidden = false
+            switch game.winner {
+                case "e": winnerLabel.text = "\(game.winner) won!"
+                case "o": winnerLabel.text = "\(game.winner) won!"
+                default: winnerLabel.text = "Tie between Red and Blue"
+            }
+        }
     }
 }
 
