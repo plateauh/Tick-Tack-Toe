@@ -3,7 +3,8 @@
 //  TickTackToe
 //
 //  Created by Najd Alsughaiyer on 06/12/2021.
-//
+//  I think I turned my code not into a spaghetti, but a fettuccine
+//  I could make the design of class better but my empty head doesn't want to do it
 
 import UIKit
 
@@ -19,9 +20,9 @@ public class Game {
         self.gameColors = gameColors
     }
     
-    public func takeTurn(sender: UIButton) {
+    public func takeTurn(sender: UIButton) -> Bool {
         let isAvailable = board[sender.tag] == "n"
-        if isAvailable {
+        if isAvailable && !gameEnded {
             if turnIndx%2 == 0 {
                 sender.backgroundColor = gameColors[0]
                 board[sender.tag] = "e"
@@ -30,11 +31,12 @@ public class Game {
             else {
                 sender.backgroundColor = gameColors[1]
                 board[sender.tag] = "o"
-                if turnIndx >= 4 { checkWinner(player: "o") }
+                if turnIndx >= 5 { checkWinner(player: "o") }
             }
             turnIndx += 1
-            if turnIndx > 9 { gameEnded = true }
+            if turnIndx > 8 { gameEnded = true }
         }
+        return gameEnded
     }
     
     func checkWinner(player: Character) {
@@ -54,6 +56,7 @@ public class Game {
             if line == "\(player)\(player)\(player)" {
                 winner = player
                 gameEnded = true
+                break
             }
         }
     }

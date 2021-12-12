@@ -33,14 +33,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func gameButtonPressed(_ sender: UIButton) {
-        if !game.gameEnded {
-            game.takeTurn(sender: sender)
-        }
-        else {
+        if game.takeTurn(sender: sender) {
             winnerLabel.isHidden = false
+            let players = [game.gameColors[0] == UIColor.blue ? "Blue": "Red", game.gameColors[1] == UIColor.blue ? "Blue": "Red"]
             switch game.winner {
-                case "e": winnerLabel.text = "\(game.winner) won!"
-                case "o": winnerLabel.text = "\(game.winner) won!"
+                case "e": winnerLabel.text = "\(players[0]) won!"
+                case "o": winnerLabel.text = "\(players[1]) won!"
                 default: winnerLabel.text = "Tie between Red and Blue"
             }
         }
